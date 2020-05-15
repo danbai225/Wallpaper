@@ -19,10 +19,10 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         //获取classpath
         ApplicationHome h = new ApplicationHome(getClass());
         File jarF = h.getSource();
-        //拼接path classpath的上级+自定义的images
-        String gitPath=jarF.getParentFile()+ File.separator+"images"+File.separator;
+        //拼接path classpath的上级+自定义的wallpaper
+        String gitPath=jarF.getParentFile()+ File.separator+"wallpaper"+File.separator;
         //添加映射  (idea打包会映射在target目录)
-        registry.addResourceHandler("/images/**").addResourceLocations("file:"+gitPath);
+        registry.addResourceHandler("/wallpaper/**").addResourceLocations("file:"+gitPath);
     }
 
 }
