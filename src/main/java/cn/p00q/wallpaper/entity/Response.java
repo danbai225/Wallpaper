@@ -5,6 +5,8 @@
  **/
 package cn.p00q.wallpaper.entity;
 
+import cn.p00q.wallpaper.utils.ReturnMap;
+
 import java.io.Serializable;
 
 public class Response implements Serializable {
@@ -47,6 +49,10 @@ public class Response implements Serializable {
 
     public Response setData(Object data) {
         this.data = data;
+        return this;
+    }
+    public Response setData(ReturnMap data){
+        this.data = data.getData();
         return this;
     }
 

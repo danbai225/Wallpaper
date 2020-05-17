@@ -11,12 +11,16 @@ import cn.p00q.wallpaper.entity.Response;
 import cn.p00q.wallpaper.entity.User;
 import cn.p00q.wallpaper.mapper.UserMapper;
 import cn.p00q.wallpaper.utils.EmailUtil;
+import cn.p00q.wallpaper.utils.ReturnMap;
+import cn.p00q.wallpaper.utils.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -99,5 +103,28 @@ public class UserService {
         redisTemplate.opsForValue().set(UserConstant.REDIS_ACTIVATION_PREFIX+activationId,username,5, TimeUnit.MINUTES);
         //发送激活邮件
         emailUtil.sendEmail(UserConstant.REG_EMAIL_TITLE,UserConstant.REG_EMAIL_CONTENT+UserConstant.ACTIVATION_URL+activationId,email);
+    }
+
+    /**
+     * 用户登录
+     * @param user 登录信息
+     */
+    public ReturnMap login(User user){
+        User dataUser = selectByUserName(user.getUsername());
+        if(dataUser!=null){
+            //加密pass
+            String pass=DigestUtils.md5DigestAsHex((user.getUsername()+user.getPassword()).getBytes());
+            //验证密码
+            if(dataUser.getPassword().equals(pass)){
+                String token=StringUtils.getUUID32();
+                //存入token
+                redisTemplate.opsForValue().set(token,dataUser,7,TimeUnit.DAYS);
+                ReturnMap returnMap = ReturnMap.succeed("登录成功!");
+                returnMap.put("token",token);
+                returnMap.put("user",dataUser);
+                return returnMap;
+            }
+        }
+        return ReturnMap.error("账号或密码错误");
     }
 }

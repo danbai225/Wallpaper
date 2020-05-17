@@ -21,13 +21,13 @@ public class User {
     /**
      * 用户名
      */
-    @Length(min = 3,max = 16,message = "用户名长度在3-16",groups = Register.class)
+    @Length(min = 3,max = 16,message = "用户名长度在3-16",groups = {Register.class,Login.class})
     private String username;
 
     /**
      * 用户密码
      */
-    @Length(min = 6,max = 16,message = "密码长度在6-16",groups = Register.class)
+    @Length(min = 6,max = 16,message = "密码长度在6-16",groups = {Register.class,Login.class})
     private String password;
 
     /**
@@ -180,6 +180,6 @@ public class User {
     public interface Register {
     }
 
-    public interface ResetPassword {
+    public interface Login {
     }
 }
