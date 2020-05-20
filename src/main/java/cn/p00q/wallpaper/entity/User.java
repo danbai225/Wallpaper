@@ -10,6 +10,10 @@ import javax.validation.constraints.Email;
  * @author DanBai
  */
 public class User {
+    public static final int TYPE_VISITOR = 0;
+    public static final int TYPE_NORMAL = 1;
+    public static final int TYPE_ASSESSOR = 3;
+    public static final int TYPE_ADMIN = 4;
 
     /**
      * 用户id

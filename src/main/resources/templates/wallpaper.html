@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-y: hidden
+    }
+</style>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript">
+    token = "[[${token}]]";
+    $(function () {
+        $("#iframe").height(window.screen.height + "px");
+        setInterval(function () {
+
+            $.ajax({
+                //几个参数需要注意一下
+                type: "GET",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/api/v1/user/getWallpaper?token="+token,//url
+                success: function (result) {
+                    if($("#iframe").attr('src')!=result.data){
+                        $("#iframe").attr("src",result.data);
+                    }
+                },
+            });
+        }, 2000);
+    });
+</script>
+<body>
+<!--/*@thymesVar id="url" type="java.lang.String"*/-->
+<iframe id="iframe" frameborder="0" style="width:100%;" th:src="${url}"></iframe>
+</body>
+</html>

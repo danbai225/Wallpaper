@@ -1,34 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线H5壁纸</title>
 </head>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    overflow-y: hidden
-  }
-</style>
-<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
-<script type="text/javascript">
-  window.onerror = function () { return true; }
-  $(function () {
-    headerH = 0;
-    var h = $(window).height();
-    $("#iframe").height((h - headerH) + "px");
-    setTimeout(function () {
-      window.iframe.src = "https://w.wallhaven.cc/full/5w/wallhaven-5wv8o8.jpg";
-    }, 5000)
-  });
-</script>
-</head>
-
-<body>
-  <iframe id="iframe" frameborder="0" src="https://paperplanes.world/" style="width:100%;"></iframe>
+<body background="img/bj.jpg">
+<div align="center">
+    <img src="img/wz.png" style="width: 80%"/>
+    <p id="wz-zh">在线H5壁纸</p>
+    <p id="intro" style="color: #84bbf3">一个链接管理你的在线壁纸,赶紧开始使用吧!</p>
+    <button class="go_button" onclick="window.location.href='/user'">点击开始使用</button>
+</div>
 </body>
+<style>
+    #wz-zh {
+        display: block;
+        font-family: helvetica, sans-serif;
+        color: #B5B5B5;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        letter-spacing: 6pt;
+        word-spacing: 0pt;
+    }
 
+    .go_button {
+        box-shadow: inset 0px 1px 0px 0px #bbdaf7;
+        background: linear-gradient(to bottom, #207ad4 5%, #378de5 100%);
+        background-color: #207ad4;
+        border-radius: 6px;
+        border: 1px solid #84bbf3;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 24px;
+        font-weight: bold;
+        padding: 11px 39px;
+        text-decoration: none;
+    }
+
+    .go_button:hover {
+        background: linear-gradient(to bottom, #378de5 5%, #207ad4 100%);
+        background-color: #378de5;
+    }
+
+    .go_button:active {
+        position: relative;
+        top: 1px;
+    }
+
+
+</style>
 </html>

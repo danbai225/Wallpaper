@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>壁纸信息</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/css/uikit.min.css"/>
+</head>
+<body>
+<!--/*@thymesVar id="wallpaper" type="cn.p00q.wallpaper.entity.Wallpaper"*/-->
+<iframe id="iframe" frameborder="0" style="width:100%;" th:src="${wallpaper.url}"></iframe>
+<div class="uk-position-left uk-overlay uk-overlay-default uk-flex uk-flex-middle" style="display: block;max-width:20%">
+    <!--/*@thymesVar id="wallpaper" type="cn.p00q.wallpaper.entity.Wallpaper"*/-->
+    <h3 class=".uk-heading-medium" th:text="${wallpaper.name}"></h3>
+    <dl class="uk-description-list uk-description-list-divider">
+        <dt><span class="uk-label">作者</span></dt>
+        <dd th:text="${wallpaper.getAuthor()}"></dd>
+    </dl>
+    <dl class="uk-description-list uk-description-list-divider">
+        <dt><span class="uk-label">简介</span></dt>
+        <dd th:text="${wallpaper.getIntroduction()}"></dd>
+    </dl>
+    <dl class="uk-description-list uk-description-list-divider">
+        <dt><span class="uk-label">上传者</span></dt>
+        <dd th:text="${wallpaper.getUploader()}"></dd>
+    </dl>
+    <dl class="uk-description-list uk-description-list-divider">
+        <dt><span class="uk-label">上传时间</span></dt>
+        <dd th:text="${wallpaper.getUploadTime().toLocaleString()}"></dd>
+    </dl>
+    <button class="uk-button uk-button-primary wallpaperId" onclick="setWallpaper()" th:wallpaperId="${wallpaper.id}">设置为壁纸</button>
+</div>
+</body>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-y: hidden
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit-icons.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#iframe").height(window.screen.height-100 + "px");
+    });
+    function setWallpaper() {
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/api/v1/user/setWallpaper",//url
+            data:{id:$('.wallpaperId').attr("wallpaperId")},
+            success: function (result) {
+                UIkit.notification({message: result.msg});
+            },
+        });
+    }
+</script>
+</html>

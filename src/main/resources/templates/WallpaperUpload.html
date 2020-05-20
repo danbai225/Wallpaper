@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>壁纸上传</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/css/uikit.min.css"/>
+</head>
+<body>
+<div class="uk-position-center uk-overlay uk-overlay-default">
+    <div class="uk-card uk-card-primary uk-card-body uk-animation-scale-up uk-card-large">
+        <h3 class="uk-card-title">壁纸上传</h3>
+        <div class="uk-margin-large"></div>
+        <form class="bzsc uk-form-width-large">
+            <input name="name" class="uk-input input_name" type="text" placeholder="壁纸名字">
+            <div class="uk-margin"></div>
+            <input name="author" class="uk-input input_author" type="text" placeholder="作者">
+            <div class="uk-margin"></div>
+            <textarea name="introduction" class="uk-textarea input_introduction" placeholder="壁纸介绍"></textarea>
+            <div class="uk-margin" uk-grid>
+                <div class="uk-width-1-2@s">
+                    <input name="imgUrl" class="uk-input input_img" type="text" placeholder="壁纸截图url">
+                </div>
+                <div class="uk-width-1-2@s">
+                    <div class="img_upload" uk-form-custom>
+                        <input   type="file" accept="image/png, image/jpeg">
+                        <button class="uk-button uk-button-default" type="button" tabindex="-1">上传壁纸截图</button>
+                    </div>
+                </div>
+            </div>
+            <div class="zip-upload uk-placeholder uk-text-center">
+                <span uk-icon="icon: cloud-upload"></span>
+                <span class="uk-text-middle">请把壁纸打成压缩包(内含index.html)</span>
+                <div uk-form-custom>
+                    <input class="input_file" type="file" name="file" accept="application/zip">
+                    <span class="uk-link">选择壁纸压缩包</span>
+                </div>
+            </div>
+            <div class="uk-margin"></div>
+            <input class="uk-button uk-button-primary uk-align-right" onClick="upbz()" value="上传"></button>
+        </form>
+    </div>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit-icons.min.js"></script>
+<script>
+
+    UIkit.upload('.img_upload', {
+        url: 'http://img.p00q.cn:222/api/upload',
+        multiple: false,
+        name:"image",
+        complete: function (e) {
+            UIkit.notification({message: '图片上传成功'});
+            $(".input_img").val(JSON.parse(e.response).data.url);
+        }
+    });
+
+    function upbz() {
+        if ($('.input_name').val().length < 1 | $('.input_author').val().length < 1|$('.input_introduction').val().length < 1|$('.input_img').val().length < 1|$('.input_file').val().length < 1) {
+            UIkit.notification({message: '不能留空'});
+            return
+        }
+        const formData = new FormData();
+        formData.append("name",$(".input_name").val());
+        formData.append("author",$(".input_author").val());
+        formData.append("introduction",$(".input_introduction").val());
+        formData.append("imgUrl",$(".input_img").val());
+        formData.append("file",$(".input_file")[0].files[0]);
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/api/v1/wallpaper/upload",//url
+            // 告诉jQuery不要去处理发送的数据
+            processData : false,
+            // 告诉jQuery不要去设置Content-Type请求头
+            contentType : false,
+            data: formData,
+            success: function (result) {
+                UIkit.notification({message: result.msg});
+            },
+        });
+    }
+</script>
+</html>

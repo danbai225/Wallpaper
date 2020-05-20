@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ReturnMap {
     private Map data;
-    private boolean succeed;
+    public boolean succeed;
     private String msg;
 
     public boolean isSucceed() {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>壁纸列表</title>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/css/uikit.min.css"/>
+</head>
+<body>
+<div class="uk-grid-small uk-child-width-1-4@s uk-flex-center uk-text-center" uk-grid="masonry: true">
+    <div th:each="wallpaper:${wallpapers}">
+
+        <div class="uk-card uk-card-default uk-card-body">
+            <a th:href="'/wallpaperInfo?id='+${wallpaper.id}"><img th:src="${wallpaper.imgUrl}"></a>
+        </div>
+    </div>
+</div>
+<div class="uk-align-right">
+    <ul class="uk-pagination">
+        <li>
+            <a th:href="'/list?page='+${page - 1}" th:if="${page!=1}"><button class="uk-button uk-button-primary">上一页</button></a></li>
+        <li>
+            <a th:href="'/list?page='+${page + 1}">
+                <button class="uk-button uk-button-primary">下一页</button>
+            </a></li>
+    </ul>
+</div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit-icons.min.js"></script>
+</html>

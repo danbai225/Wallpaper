@@ -5,30 +5,49 @@
  **/
 package cn.p00q.wallpaper.controller;
 
-import cn.p00q.wallpaper.constant.WallpaperConstant;
-import cn.p00q.wallpaper.entity.Response;
+import cn.p00q.wallpaper.constant.UserConstant;
+import cn.p00q.wallpaper.entity.User;
 import cn.p00q.wallpaper.entity.Wallpaper;
 import cn.p00q.wallpaper.service.WallpaperService;
-
-import cn.p00q.wallpaper.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class WallpaperController {
     @Autowired
     WallpaperService wallpaperService;
-    @PostMapping("/uploadWallpaper")
-    @ResponseBody
-    public Response uploadFile(@RequestParam("file") MultipartFile file,Wallpaper wallpaper){
-        //后缀.zip
-        if(FileUtils.getPrefix(file.getOriginalFilename()).toLowerCase().equals(Wallpaper.File_PREFIX)){
-            return wallpaperService.saveWallpaper(file,wallpaper);
+    @GetMapping("/configuration")
+    public void configuration(HttpServletRequest request, HttpServletResponse response){
+        User user =(User) request.getSession().getAttribute(UserConstant.USER);
+        if(user!=null){
+            wallpaperService.configuration(user,response);
         }
-        return Response.Err(WallpaperConstant.NOT_ZIP);
+    }
+    @GetMapping("/WallpaperUpload")
+    public String wallpaperUpload(){
+        return "WallpaperUpload";
+    }
+
+    @GetMapping("/wallpaperInfo")
+    public String wallpaperInfo(Integer id, Model model){
+        Wallpaper wallpaper=wallpaperService.selectById(id);
+        if(wallpaper!=null){
+            model.addAttribute("wallpaper",wallpaper);
+            return "wallpaperInfo";
+        }
+        return "error/404";
+    }
+    @GetMapping("/list")
+    public String list(Integer page,Model model){
+        if (page==null||page<0){
+            page=1;
+        }
+        model.addAttribute("wallpapers",wallpaperService.list(page,10,false));
+        model.addAttribute("page",page);
+        return "list";
     }
 }

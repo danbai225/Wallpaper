@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/css/uikit.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+</head>
+<body>
+<div id="header">
+            <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+                <div class="uk-navbar-left">
+                    <ul class="uk-navbar-nav">
+                        <li>
+                            <a class="nav_wz">导航</a>
+                            <div class="uk-navbar-dropdown">
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                    <li><a href="/">首页</a></li>
+                                    <li><a href="/reg">注册</a></li>
+                                    <li><a href="https://github.com/danbai225/Wallpaper" target="_blank">Github</a></li>
+                                    <li><a href="/about">关于</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="nav_wz">壁纸</a>
+                            <div class="uk-navbar-dropdown">
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                    <li><a href="/list">壁纸列表</a></li>
+                                    <li><a href="/WallpaperUpload">壁纸上传</a></li>
+                                    <li><a href="https://wallhaven.cc/" target="_blank">图片壁纸</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="nav_wz">教程</a>
+                            <div class="uk-navbar-dropdown">
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                    <li><a href="/coursebook#使用本站壁纸" target="_blank">使用本站链接</a></li>
+                                    <li><a href="/coursebook#使用其他类型壁纸" target="_blank">使用视频壁纸</a></li>
+                                    <li><a href="/coursebook#下载" target="_blank">壁纸软件下载</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="uk-navbar-right">
+                    <ul class="uk-navbar-nav">
+                        <li>
+                            <a class="nav_wz" th:text="${session.user.username}"></a>
+                            <div class="uk-navbar-dropdown">
+                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                    <li><a href="#">我的上传</a></li>
+                                    <li><a href="#">壁纸设置</a></li>
+                                    <li><a href="#">修改密码</a></li>
+                                    <li><a href="/exit">退出登录</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+</div>
+<div id="content">
+    <h2><span id="wenhou"></span><span th:text="${session.user.username}"></span></h2>
+    <span id="today"></span>
+    <div class="uk-flex uk-flex-center">
+        <div class="uk-card uk-card-default uk-card-body uk-animation-slide-left">
+                <h3 class="uk-card-title">当前壁纸</h3>
+                <hr>
+                <!--/*@thymesVar id="url" type="java.lang.String"*/-->
+                <iframe id="iframe" frameborder="0" style="" th:src="${session.user.url}"></iframe>
+
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-left " >
+            <h3 class="uk-card-title">壁纸列表</h3>
+            <hr>
+            <a href="/list"target="_blank"><button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">动态壁纸</button></a>
+            <a href="https://wallhaven.cc/" target="_blank"><button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom" >图片壁纸</button></a>
+            <a href="/WallpaperUpload"target="_blank"><button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">上传壁纸</button></a>
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-left">
+            <h3 class="uk-card-title">壁纸软件</h3>
+            <hr>
+            <a href="https://rocksdanister.github.io/lively/"target="_blank"><button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">官网</button></a>
+            <a href="https://github.com/rocksdanister/lively/releases/download/v0.9.5.5/lively_setup_x86_full_v0955.exe"target="_blank"><button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">安装版</button></a>
+            <a href="https://github.com/rocksdanister/lively/releases/download/v0.9.5.5/lively_portable_x86_full_v0955.zip"target="_blank"><button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">绿色版</button></a>
+            <a href="http://cdn.p00q.cn/bizhi/lively_portable_x86_full_v0955.zip"target="_blank"><button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">本站下载</button></a>
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-animation-slide-right">
+            <h3 class="uk-card-title">配置</h3>
+            <hr>
+            <a href="/configuration"target="_blank"><button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">下载配置</button></a>
+            <textarea style="width: 100%;"  id="addlink_input" th:text="${session.url}"></textarea>
+            <button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom" onclick="copyText()">复制链接</button>
+        </div>
+    </div>
+</div>
+<div id="foot">
+    <div class="uk-position-bottom-center">
+        <ul class="uk-subnav uk-subnav-pill" uk-margin>
+            <li><a href="https://dbys.vip/">淡白影视</a></li>
+            <li><a href="https://p00q.cn/">淡白记忆博客</a></li>
+            <li><a href="https://github.com/danbai225">Github</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+<style>
+    body{
+        background:url(/img/sky.png)  no-repeat center;
+        background-size:cover;
+    }
+    html, body {
+
+        height: 100%;
+    }
+    .nav_wz{
+        color: #084a83 !important;
+        font-size: 1.5rem !important;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit-icons.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+<script>
+    function copyText() {
+        var input = document.getElementById("addlink_input");
+        input.select(); // 选中文本
+        document.execCommand("copy"); // 执行浏览器复制命令
+        UIkit.notification({message: '复制成功'})
+    }
+    now = new Date(),hour = now.getHours()
+    var str;
+    if(hour < 6){str="凌晨好!";}
+    else if (hour < 9){str="早上好!";}
+    else if (hour < 12){str="上午好!";}
+    else if (hour < 14){str="中午好!";}
+    else if (hour < 17){str="下午好!";}
+    else if (hour < 19){str="傍晚好!";}
+    else if (hour < 22){str="晚上好!";}
+    else {str="夜里好!";}
+    $('#wenhou').html(str);
+</script>
+
+</html>
