@@ -24,7 +24,7 @@ public class WallpaperController {
     public void configuration(HttpServletRequest request, HttpServletResponse response){
         User user =(User) request.getSession().getAttribute(UserConstant.USER);
         if(user!=null){
-            wallpaperService.configuration((String) request.getSession().getAttribute("token"),user,response);
+            wallpaperService.configuration((String) request.getSession().getAttribute("url"),user,response);
         }
     }
     @GetMapping("/WallpaperUpload")

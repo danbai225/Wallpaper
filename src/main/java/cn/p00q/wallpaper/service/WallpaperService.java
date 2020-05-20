@@ -93,7 +93,7 @@ public class WallpaperService {
      * @param user
      * @param response
      */
-    public void configuration(String token,User user, HttpServletResponse response){
+    public void configuration(String url,User user, HttpServletResponse response){
         //获取壁纸
         Wallpaper wallpaper = selectByUrl(user.getUrl());
         String dir=FileUtils.getApplicationPath()+"configuration"+File.separator+user.getUsername()+File.separator;
@@ -115,16 +115,17 @@ public class WallpaperService {
         jsonMap.put("Author",wallpaper.getAuthor());
         jsonMap.put("Contact",WallpaperConstant.CONTACT);
         jsonMap.put("Type",3);
-        jsonMap.put("FileName","http://wallpaper.p00q.cn/wallpaper?token="+token);
+        jsonMap.put("FileName",url);
         //保存到json文件
         File jsonFile=new File(dir+ WallpaperConstant.LIVELYINFO_FILENAME);
         FileOutputStream outputStream = null;
+        OutputStream out;
         try {
-            outputStream = new FileOutputStream(jsonFile);
-            OutputStream out = new BufferedOutputStream(outputStream);
-            out.write(JSON.toJSONString(jsonMap).getBytes());
-            out.flush();
-            out.close();
+            FileOutputStream fos = new FileOutputStream(jsonFile);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF-8");
+            osw.write(JSON.toJSONString(jsonMap));
+            osw.flush();
+            osw.close();
             //压缩文件夹
             FileUtils.compressedFolder(dir,dir+"configuration.zip");
             //返回文件

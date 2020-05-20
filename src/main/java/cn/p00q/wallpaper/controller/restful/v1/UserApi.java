@@ -38,6 +38,7 @@ public class UserApi {
             session.setMaxInactiveInterval(60 * 60 * 24*7);
             session.setAttribute("user",r.get("user",User.class));
             session.setAttribute("url", WallpaperConstant.CONTACT+"?token="+r.get("token",String.class));
+            session.setAttribute("token", r.get("token",String.class));
             Cookie cookie = new Cookie("JSESSIONID", session.getId());
             cookie.setMaxAge(60 * 60 * 24*7);
             response.addCookie(cookie);
