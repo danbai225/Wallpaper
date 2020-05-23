@@ -143,7 +143,9 @@ public class UserService {
     public User getUserByToken(String token){
        User user=(User)redisTemplate.opsForValue().get(token);
        if(user!=null){
-           redisTemplate.expire(token,7,TimeUnit.DAYS);
+           if (redisTemplate.getExpire(token,TimeUnit.DAYS)<3){
+               redisTemplate.expire(token,7,TimeUnit.DAYS);
+           }
            return selectByUserName(user.getUsername());
        }
        return null;
