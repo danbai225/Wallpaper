@@ -60,6 +60,6 @@ public class UserController {
             return "redirect:/user";
         }
         model.addAttribute("msg",r.getMsg());
-        return "/login";
+        return "login";
     }
 }
