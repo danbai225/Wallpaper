@@ -27,11 +27,11 @@ public class UserApi {
     UserService userService;
 
     @PostMapping("/reg")
-    Response reg(@Validated({User.Register.class}) User user){
+    public Response reg(@Validated({User.Register.class}) User user){
         return userService.reg(user);
     }
     @PostMapping("/login")
-    Response login(@Validated({User.Login.class}) User user, HttpServletRequest request, HttpServletResponse response){
+    public Response login(@Validated({User.Login.class}) User user, HttpServletRequest request, HttpServletResponse response){
         ReturnMap r = userService.login(user);
         if(r.succeed){
             HttpSession session = request.getSession();

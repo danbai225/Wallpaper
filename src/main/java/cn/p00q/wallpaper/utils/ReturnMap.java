@@ -26,7 +26,7 @@ public class ReturnMap {
     public void setMsg(String msg) {
         this.msg = msg;
     }
-
+    public String getMsg(){return this.msg;}
     public ReturnMap(){
         this.data=new HashMap();
     }

@@ -37,15 +37,11 @@ public class MainController {
         return "reg";
     }
     @GetMapping("/login")
-    public String login(HttpServletRequest request, HttpServletResponse response){
+    public String login(HttpServletRequest request){
         User user= (User) request.getSession().getAttribute(UserConstant.USER);
         if(user!=null){
             request.getSession().setAttribute("user",userService.selectByUserName(user.getUsername()));
-            try {
-                response.sendRedirect("/user");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return "redirect:/reg";
         }
         return "login";
     }
